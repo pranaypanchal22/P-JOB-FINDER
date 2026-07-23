@@ -4,6 +4,10 @@ import { adzunaExtractor } from './adzuna'
 import { manualExtractor } from './manual'
 import { csvImportExtractor } from './csvImport'
 import { demoExtractor } from './demo'
+import { careerjetExtractor } from './careerjet'
+import { usajobsExtractor } from './usajobs'
+import { angellistExtractor } from './angellist'
+import { builtinExtractor } from './builtin'
 import { linkedinExtractor } from './linkedin.placeholder'
 import { indeedExtractor } from './indeed.placeholder'
 import { glassdoorExtractor } from './glassdoor.placeholder'
@@ -12,6 +16,10 @@ export const extractorRegistry: JobExtractor[] = [
   demoExtractor,
   remoteOkExtractor,
   adzunaExtractor,
+  careerjetExtractor,
+  usajobsExtractor,
+  angellistExtractor,
+  builtinExtractor,
   manualExtractor,
   csvImportExtractor,
   linkedinExtractor,
