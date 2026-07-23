@@ -35,6 +35,59 @@ Foundation scaffold built and verified.
 
 ---
 
+## Phase 2: ✅ COMPLETE
+Job search pipeline with extractors, dedupe, and UI
+
+### Completed
+- [x] JobExtractor interface and registry
+- [x] RemoteOK extractor (public API, enabled)
+- [x] Adzuna extractor (requires API keys, disabled by default)
+- [x] Manual URL entry extractor
+- [x] CSV import extractor with parsing
+- [x] Disabled placeholders for LinkedIn, Indeed, Glassdoor
+- [x] Dedupe pipeline (URL → sourceId → normalized title+company+location)
+- [x] Search pipeline orchestrating extractors
+- [x] ExtractorRun logging and status
+- [x] /api/search endpoint with Zod validation
+- [x] Jobs page with search form and job cards
+- [x] Search statistics display
+- [x] Database persistence with duplicate detection
+
+### Verification
+- [x] Build completes successfully
+- [x] Jobs page renders with search form
+- [x] Job cards display with icons, salary, location, etc
+- [x] Search form layout correct
+
+---
+
+## Phase 3: ✅ COMPLETE (Core)
+Profile management with form and persistent storage
+
+### Completed
+- [x] Profile form with all UserProfile fields
+- [x] Basic info (name, email, phone, location)
+- [x] Work authorization and sponsorship flags
+- [x] Links (LinkedIn, GitHub, Portfolio)
+- [x] Job preferences (target roles, locations, remote preference)
+- [x] Skills, programming languages, tools, cloud platforms, certifications
+- [x] Server actions (saveProfile, getProfile)
+- [x] Profile page loads and saves data to database
+- [x] Form validation with Zod
+- [x] Load existing profile on page load
+
+### Verification
+- [x] Build completes
+- [x] Profile page renders form correctly
+- [x] All input fields accept text
+
+### TODO (can defer to later)
+- [ ] Resume upload component (file handling, storage)
+- [ ] Structured resume JSON editor (experience, education, projects detail UI)
+- [ ] Resume preview/formatting
+
+---
+
 ## Phase 2: Job Search (One Source End-to-End)
 Next steps:
 - [ ] Implement JobExtractor interface and registry
