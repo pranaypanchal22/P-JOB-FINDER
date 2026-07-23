@@ -14,21 +14,21 @@ const envSchema = z.object({
   OPENROUTER_API_KEY: z.string().optional(),
   OPENROUTER_MODEL: z.string().default('gpt-4-turbo-preview'),
 
-  OLLAMA_BASE_URL: z.string().url().optional(),
+  OLLAMA_BASE_URL: z.string().url().optional().or(z.literal('')).transform(v => v === '' ? undefined : v),
   OLLAMA_MODEL: z.string().default('mistral'),
 
   // Job Extractors
-  ADZUNA_APP_ID: z.string().optional(),
-  ADZUNA_APP_KEY: z.string().optional(),
+  ADZUNA_APP_ID: z.string().optional().or(z.literal('')).transform(v => v === '' ? undefined : v),
+  ADZUNA_APP_KEY: z.string().optional().or(z.literal('')).transform(v => v === '' ? undefined : v),
 
   // Gmail (optional)
-  GMAIL_CLIENT_ID: z.string().optional(),
-  GMAIL_CLIENT_SECRET: z.string().optional(),
-  GMAIL_REDIRECT_URI: z.string().url().optional(),
+  GMAIL_CLIENT_ID: z.string().optional().or(z.literal('')).transform(v => v === '' ? undefined : v),
+  GMAIL_CLIENT_SECRET: z.string().optional().or(z.literal('')).transform(v => v === '' ? undefined : v),
+  GMAIL_REDIRECT_URI: z.string().url().optional().or(z.literal('')).transform(v => v === '' ? undefined : v),
 
   // Auth
-  NEXTAUTH_SECRET: z.string().optional(),
-  NEXTAUTH_URL: z.string().url().optional(),
+  NEXTAUTH_SECRET: z.string().optional().or(z.literal('')).transform(v => v === '' ? undefined : v),
+  NEXTAUTH_URL: z.string().url().optional().or(z.literal('')).transform(v => v === '' ? undefined : v),
 })
 
 type Env = z.infer<typeof envSchema>
