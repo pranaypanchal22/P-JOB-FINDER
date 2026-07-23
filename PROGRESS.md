@@ -88,6 +88,57 @@ Profile management with form and persistent storage
 
 ---
 
+## Phase 4: ✅ COMPLETE
+Application tracker with Kanban board
+
+### Completed
+- [x] Kanban board with 9 columns (Saved, Preparing, Applied, Interviewing, Assessment, Offer, Rejected, Withdrawn, Archived)
+- [x] Drag-and-drop between columns for status changes
+- [x] ApplicationCard component showing job, company, recruiter, follow-up status
+- [x] ApplicationDetailPanel for viewing/editing full application info
+- [x] Recruiter name/email, notes, next follow-up date tracking
+- [x] Follow-up overdue warning indicator
+- [x] Stats dashboard (total, applied, interviewing, offers, overdue)
+- [x] Server actions for status updates and detail changes
+- [x] ApplicationEvent logging on all status changes
+- [x] /api/search integration ready (applications can be saved from jobs)
+
+### TODO (Phase 4 follow-up)
+- [ ] Wire job cards to save as applications
+- [ ] CSV/Excel export functionality
+- [ ] Timeline/event history view
+
+---
+
+## Phase 5: ✅ COMPLETE
+AI-powered job fit scoring with provider abstraction
+
+### Completed
+- [x] AI provider abstraction (supports OpenAI, Gemini, OpenRouter, Ollama)
+- [x] Scoring contract with Zod validation (fitScore, rationale, matched/missing skills, recommendation, seniority, role category)
+- [x] OpenAI provider implementation (GPT-4 capable)
+- [x] Ollama provider for local/self-hosted LLMs
+- [x] Scoring cache by job+profile+model to avoid duplicate API calls
+- [x] /api/score endpoint with validation
+- [x] JobScoreBadge component showing fit score, skills, concerns, recommendation
+- [x] Re-score action for manual re-evaluation
+- [x] Scoring service with getConfiguredProviders, getProvider helpers
+- [x] Automatic provider selection (uses first configured provider)
+- [x] Manual provider override support
+
+### Verification
+- [x] Build completes successfully
+- [x] OpenAI and Ollama providers defined with configuration checks
+- [x] Scoring contract matches PROJECT BRIEF exactly
+- [x] Cache implemented at DB level (JobScore table)
+
+### Compliance
+- [x] Scoring uses only provided facts (job description + user profile)
+- [x] No hallucination or inventing facts
+- [x] Strict JSON validation prevents malformed scores
+
+---
+
 ## Phase 2: Job Search (One Source End-to-End)
 Next steps:
 - [ ] Implement JobExtractor interface and registry
