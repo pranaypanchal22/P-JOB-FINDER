@@ -80,7 +80,7 @@ const DEMO_JOBS: ExtractedJob[] = [
 
 export const demoExtractor: JobExtractor = {
   name: 'Demo',
-  enabled: false,
+  enabled: true,
   async search(input: JobSearchInput): Promise<ExtractedJob[]> {
     await new Promise(resolve => setTimeout(resolve, 500)) // Simulate API delay
 
