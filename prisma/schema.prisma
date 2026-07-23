@@ -1,0 +1,237 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model UserProfile {
+  id                      String    @id @default(cuid())
+  name                    String
+  email                   String    @unique
+  phone                   String?
+  location                String?
+  linkedinUrl             String?
+  githubUrl               String?
+  portfolioUrl            String?
+  workAuthorization       String?
+  sponsorshipNeeds        Boolean   @default(false)
+  targetRoles             String    @default("") // JSON array
+  targetLocations         String    @default("") // JSON array
+  remotePreference        String    @default("flexible") // remote, hybrid, onsite, flexible
+  skills                  String    @default("") // JSON array
+  tools                   String    @default("") // JSON array
+  cloudPlatforms          String    @default("") // JSON array
+  programmingLanguages    String    @default("") // JSON array
+  certifications          String    @default("") // JSON array
+  education               String    @default("") // JSON array
+  structuredResumeJson    String    @default("{}") // JSON
+  baseResumeFilePath      String?
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+
+  applications            Application[]
+  jobScores               JobScore[]
+  resumeVersions          ResumeVersion[]
+  gmailAccounts           GmailAccount[]
+  settings                Setting[]
+}
+
+model Job {
+  id                      String    @id @default(cuid())
+  source                  String
+  sourceJobId             String?
+  title                   String
+  company                 String
+  normalizedTitle         String
+  normalizedCompany       String
+  location                String?
+  remoteType              String    @default("unknown") // remote, hybrid, onsite, unknown
+  employmentType          String    @default("unknown") // internship, co-op, full-time, contract, part-time, unknown
+  description             String    @default("")
+  requirements            String    @default("")
+  url                     String
+  applyUrl                String?
+  postedAt                DateTime?
+  discoveredAt            DateTime  @default(now())
+  salaryMin               Int?
+  salaryMax               Int?
+  currency                String?
+  rawJson                 String    @default("{}") // JSON
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+
+  applications            Application[]
+  scores                  JobScore[]
+  resumeVersions          ResumeVersion[]
+
+  @@unique([source, sourceJobId], name: "source_unique")
+  @@index([normalizedTitle])
+  @@index([normalizedCompany])
+  @@index([discoveredAt])
+}
+
+model JobScore {
+  id                      String    @id @default(cuid())
+  jobId                   String
+  profileId               String
+  provider                String    // openai, gemini, openrouter, ollama
+  model                   String
+  fitScore                Int       // 0-100
+  rationale               String
+  matchedSkills           String    @default("[]") // JSON array
+  missingSkills           String    @default("[]") // JSON array
+  concerns                String    @default("[]") // JSON array
+  recommendation          String    // save, apply, maybe, skip
+  seniorityFit            String    // too_junior, good_fit, stretch, too_senior
+  roleCategory            String    // devops, sre, cloud, it_operations, project_management, software, other
+  rawJson                 String    @default("{}") // JSON
+  createdAt               DateTime  @default(now())
+
+  job                     Job       @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  profile                 UserProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@unique([jobId, profileId, model], name: "score_unique")
+  @@index([fitScore])
+  @@index([recommendation])
+}
+
+model ResumeVersion {
+  id                      String    @id @default(cuid())
+  profileId               String
+  jobId                   String?
+  baseResumeHash          String
+  tailoredResumeJson      String    @default("{}") // JSON
+  htmlPath                String?
+  pdfPath                 String?
+  changeSummary           String    @default("[]") // JSON array
+  keywordReport           String    @default("{}") // JSON
+  truthCheckReport        String    @default("[]") // JSON array
+  createdAt               DateTime  @default(now())
+
+  profile                 UserProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  job                     Job?      @relation(fields: [jobId], references: [id], onDelete: SetNull)
+  applications            Application[]
+
+  @@index([profileId])
+  @@index([jobId])
+}
+
+model Application {
+  id                      String    @id @default(cuid())
+  jobId                   String
+  profileId               String
+  resumeVersionId         String?
+  status                  String    @default("saved") // saved, preparing, applied, interviewing, assessment, offer, rejected, withdrawn, archived
+  dateSaved               DateTime  @default(now())
+  dateApplied             DateTime?
+  lastContactDate         DateTime?
+  nextFollowUpDate        DateTime?
+  recruiterName           String?
+  recruiterEmail          String?
+  notes                   String?
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+
+  job                     Job       @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  profile                 UserProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  resumeVersion           ResumeVersion? @relation(fields: [resumeVersionId], references: [id], onDelete: SetNull)
+  events                  ApplicationEvent[]
+  gmailMessages           GmailMessage[]
+
+  @@unique([jobId, profileId], name: "application_unique")
+  @@index([status])
+  @@index([nextFollowUpDate])
+  @@index([profileId])
+}
+
+model ApplicationEvent {
+  id                      String    @id @default(cuid())
+  applicationId           String
+  type                    String    // status_change, note_added, email_received, reminder_set, etc
+  title                   String
+  description             String?
+  metadata                String    @default("{}") // JSON
+  createdAt               DateTime  @default(now())
+
+  application             Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+
+  @@index([applicationId])
+  @@index([createdAt])
+}
+
+model GmailAccount {
+  id                      String    @id @default(cuid())
+  profileId               String
+  email                   String
+  accessTokenEncrypted    String
+  refreshTokenEncrypted   String
+  tokenExpiry             DateTime?
+  enabled                 Boolean   @default(true)
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+
+  profile                 UserProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  messages                GmailMessage[]
+
+  @@unique([profileId, email])
+  @@index([enabled])
+}
+
+model GmailMessage {
+  id                      String    @id @default(cuid())
+  gmailMessageId          String    @unique
+  applicationId           String?
+  gmailAccountId          String
+  fromEmail               String
+  fromName                String?
+  subject                 String
+  snippet                 String
+  receivedAt              DateTime
+  classification          String    // interview_invite, assessment_request, rejection, offer, recruiter_followup, application_confirmation, unrelated, unknown
+  confidence              Float     @default(0.0) // 0-1
+  extractedJson           String    @default("{}") // JSON
+  createdAt               DateTime  @default(now())
+
+  application             Application? @relation(fields: [applicationId], references: [id], onDelete: SetNull)
+  gmailAccount            GmailAccount @relation(fields: [gmailAccountId], references: [id], onDelete: Cascade)
+
+  @@index([gmailAccountId])
+  @@index([applicationId])
+  @@index([classification])
+}
+
+model ExtractorRun {
+  id                      String    @id @default(cuid())
+  source                  String
+  query                   String
+  filtersJson             String    @default("{}") // JSON
+  status                  String    // pending, running, completed, failed
+  jobsFound               Int       @default(0)
+  jobsCreated             Int       @default(0)
+  jobsDeduped             Int       @default(0)
+  errorMessage            String?
+  startedAt               DateTime  @default(now())
+  finishedAt              DateTime?
+
+  @@index([source])
+  @@index([status])
+  @@index([startedAt])
+}
+
+model Setting {
+  id                      String    @id @default(cuid())
+  profileId               String
+  key                     String
+  value                   String
+  encrypted               Boolean   @default(false)
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+
+  profile                 UserProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@unique([profileId, key])
+  @@index([profileId])
+}
