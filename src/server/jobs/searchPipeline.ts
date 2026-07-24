@@ -1,8 +1,8 @@
-import { ExtractedJob, JobSearchInput } from '@/server/extractors/types'
-import { getEnabledExtractors } from '@/server/extractors/registry'
+import { ExtractedJob, JobSearchInput } from '../../server/extractors/types'
+import { getEnabledExtractors } from '../../server/extractors/registry'
 import { dedupeJobs } from './dedupe'
-import { logger } from '@/lib/logger'
-import { prisma } from '@/lib/db'
+import { logger } from '../../lib/logger'
+import { prisma } from '../../lib/db'
 
 export interface SearchPipelineOptions {
   profileId: string

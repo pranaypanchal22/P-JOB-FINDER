@@ -1,7 +1,7 @@
 'use server'
 
-import { prisma } from '@/lib/db'
-import { logger } from '@/lib/logger'
+import { prisma } from '../../lib/db'
+import { logger } from '../../lib/logger'
 import { tailorResume } from './tailor'
 import { generateATSHtml, generatePdfFilename } from './pdf'
 import crypto from 'crypto'

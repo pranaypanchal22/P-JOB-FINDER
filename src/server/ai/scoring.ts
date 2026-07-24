@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import { prisma } from '@/lib/db'
-import { logger } from '@/lib/logger'
+import { prisma } from '../../lib/db'
+import { logger } from '../../lib/logger'
 import { openaiProvider } from './openai'
 import { ollamaProvider } from './ollama'
 import { AIProvider } from './types'

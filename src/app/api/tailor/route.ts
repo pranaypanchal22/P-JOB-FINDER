@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
-import { tailorResumeForJob } from '@/server/resume/actions'
-import { logger } from '@/lib/logger'
+import { tailorResumeForJob } from '../../../server/resume/actions'
+import { logger } from '../../../lib/logger'
 
 const TailorRequestSchema = z.object({
   profileId: z.string().min(1),

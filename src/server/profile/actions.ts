@@ -1,7 +1,7 @@
 'use server'
 
-import { prisma } from '@/lib/db'
-import { logger } from '@/lib/logger'
+import { prisma } from '../../lib/db'
+import { logger } from '../../lib/logger'
 
 export async function saveProfile(data: any) {
   try {

@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Application, Job } from '@prisma/client'
 import { ApplicationCard } from './ApplicationCard'
 import { ApplicationDetailPanel } from './ApplicationDetailPanel'
-import { updateApplicationStatus } from '@/server/applications/actions'
+import { updateApplicationStatus } from '../../server/applications/actions'
 
 type Status = 'saved' | 'preparing' | 'applied' | 'interviewing' | 'assessment' | 'offer' | 'rejected' | 'withdrawn' | 'archived'
 

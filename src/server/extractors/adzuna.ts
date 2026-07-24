@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { JobExtractor, JobSearchInput, ExtractedJob } from './types'
-import { logger } from '@/lib/logger'
-import { getEnv } from '@/lib/env'
+import { logger } from '../../lib/logger'
+import { getEnv } from '../../lib/env'
 
 const ADZUNA_API = 'https://api.adzuna.com/v1/api/jobs/gb/search/1'
 

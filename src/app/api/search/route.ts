@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
-import { runSearchPipeline } from '@/server/jobs/searchPipeline'
-import { logger } from '@/lib/logger'
+import { runSearchPipeline } from '../../../server/jobs/searchPipeline'
+import { logger } from '../../../lib/logger'
 
 const SearchRequestSchema = z.object({
   query: z.string().min(1, 'Query required'),

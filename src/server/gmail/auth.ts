@@ -1,6 +1,6 @@
 import { google } from 'googleapis'
 import { Credentials } from 'google-auth-library'
-import { logger } from '@/lib/logger'
+import { logger } from '../../lib/logger'
 
 const oauth2Client = new google.auth.OAuth2(
   process.env.GMAIL_CLIENT_ID,

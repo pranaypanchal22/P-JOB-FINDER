@@ -1,7 +1,7 @@
 'use server'
 
-import { prisma } from '@/lib/db'
-import { logger } from '@/lib/logger'
+import { prisma } from '../../lib/db'
+import { logger } from '../../lib/logger'
 
 type Status = 'saved' | 'preparing' | 'applied' | 'interviewing' | 'assessment' | 'offer' | 'rejected' | 'withdrawn' | 'archived'
 

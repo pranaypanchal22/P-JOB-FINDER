@@ -1,7 +1,7 @@
 'use client'
 
 import { Job } from '@prisma/client'
-import { formatCurrency, formatRelativeTime } from '@/lib/utils'
+import { formatCurrency, formatRelativeTime } from '../../lib/utils'
 import { Briefcase, MapPin, DollarSign, Calendar, ExternalLink } from 'lucide-react'
 
 interface JobCardProps {

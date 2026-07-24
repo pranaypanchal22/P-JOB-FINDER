@@ -1,8 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { ProfileForm } from '@/components/profile/ProfileForm'
-import { getProfile, saveProfile } from '@/server/profile/actions'
+import { ProfileForm } from '../../components/profile/ProfileForm'
+import { getProfile, saveProfile } from '../../server/profile/actions'
 import { UserProfile } from '@prisma/client'
 
 export default function ProfilePage() {

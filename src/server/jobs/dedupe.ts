@@ -1,5 +1,5 @@
-import { ExtractedJob } from '@/server/extractors/types'
-import { normalizeCompanyName, normalizeJobTitle } from '@/lib/utils'
+import { ExtractedJob } from '../../server/extractors/types'
+import { normalizeCompanyName, normalizeJobTitle } from '../../lib/utils'
 
 interface DedupeResult {
   unique: ExtractedJob[]

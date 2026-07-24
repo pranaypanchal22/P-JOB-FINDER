@@ -1,7 +1,7 @@
 'use server'
 
-import { prisma } from '@/lib/db'
-import { logger } from '@/lib/logger'
+import { prisma } from '../../lib/db'
+import { logger } from '../../lib/logger'
 import { getAuthUrl, getTokenFromCode, getGmailClient } from './auth'
 import { syncGmailEmails } from './sync'
 

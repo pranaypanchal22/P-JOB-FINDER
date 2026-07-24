@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { JobExtractor, JobSearchInput, ExtractedJob } from './types'
-import { logger } from '@/lib/logger'
+import { logger } from '../../lib/logger'
 
 const REMOTEOK_API = 'https://remoteok.io/api'
 

@@ -1,5 +1,5 @@
-import { prisma } from '@/lib/db'
-import { logger } from '@/lib/logger'
+import { prisma } from '../../lib/db'
+import { logger } from '../../lib/logger'
 import { gmail_v1 } from 'googleapis'
 
 export interface EmailMatch {

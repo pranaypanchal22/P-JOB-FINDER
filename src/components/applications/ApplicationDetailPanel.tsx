@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { Application, Job } from '@prisma/client'
-import { formatDate, formatRelativeTime } from '@/lib/utils'
+import { formatDate, formatRelativeTime } from '../../lib/utils'
 import { X, Calendar, Users, FileText } from 'lucide-react'
 
 type Status = 'saved' | 'preparing' | 'applied' | 'interviewing' | 'assessment' | 'offer' | 'rejected' | 'withdrawn' | 'archived'

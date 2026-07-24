@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
-import { scoreJob } from '@/server/ai/scoring'
-import { logger } from '@/lib/logger'
+import { scoreJob } from '../../../server/ai/scoring'
+import { logger } from '../../../lib/logger'
 
 const ScoringRequestSchema = z.object({
   jobId: z.string().min(1),

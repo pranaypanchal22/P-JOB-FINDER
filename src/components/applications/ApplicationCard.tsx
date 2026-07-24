@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { Application, Job } from '@prisma/client'
-import { formatRelativeTime } from '@/lib/utils'
+import { formatRelativeTime } from '../../lib/utils'
 import { Calendar, Users, Wand2 } from 'lucide-react'
 import { TailorResumeModal } from './TailorResumeModal'
 

@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { z } from 'zod'
 import { AIProvider, ScoringInput, JobScore } from './types'
-import { getEnv } from '@/lib/env'
-import { logger } from '@/lib/logger'
+import { getEnv } from '../../lib/env'
+import { logger } from '../../lib/logger'
 
 const ScoreSchema = z.object({
   fitScore: z.number().min(0).max(100),

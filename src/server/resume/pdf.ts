@@ -1,4 +1,4 @@
-import { logger } from '@/lib/logger'
+import { logger } from '../../lib/logger'
 
 /**
  * Generate PDF filename following convention: FirstName_LastName_Company_Role_Tailored_CV.pdf
