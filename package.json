@@ -14,7 +14,8 @@
     "db:seed": "prisma db seed",
     "search": "node scripts/search.js",
     "gmail:sync": "node scripts/gmail-sync.js",
-    "export:applications": "node scripts/export-applications.js"
+    "export:applications": "node scripts/export-applications.js",
+    "postinstall": "prisma db push --skip-generate"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
