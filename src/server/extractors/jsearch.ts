@@ -58,6 +58,13 @@ export const jsearchExtractor: JobExtractor = {
         timeout: 15000,
       })
 
+      logger.info('JSearch response:', {
+        hasData: !!response.data?.data,
+        isArray: Array.isArray(response.data?.data),
+        dataLength: response.data?.data?.length,
+        responseKeys: Object.keys(response.data || {}),
+      })
+
       if (!response.data?.data || !Array.isArray(response.data.data)) {
         logger.warn('JSearch: unexpected response format', response.data)
         return []
