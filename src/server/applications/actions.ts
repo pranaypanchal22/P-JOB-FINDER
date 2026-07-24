@@ -68,6 +68,18 @@ export async function updateApplicationDetails(
   }
 }
 
+export async function getFirstProfileId(): Promise<string | null> {
+  try {
+    const profile = await prisma.userProfile.findFirst({
+      orderBy: { createdAt: 'asc' },
+    })
+    return profile?.id || null
+  } catch (error) {
+    logger.error('Error fetching first profile', error)
+    return null
+  }
+}
+
 export async function getApplicationsWithJobs(profileId?: string) {
   try {
     // If no profileId provided, use first profile

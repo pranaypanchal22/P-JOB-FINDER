@@ -22,9 +22,10 @@ const STATUSES: { value: Status; label: string; color: string }[] = [
 
 interface KanbanProps {
   applications: (Application & { job: Job })[]
+  profileId: string
 }
 
-export function ApplicationKanban({ applications }: KanbanProps) {
+export function ApplicationKanban({ applications, profileId }: KanbanProps) {
   const [selectedApp, setSelectedApp] = useState<Application & { job: Job } | null>(null)
   const [draggedApp, setDraggedApp] = useState<string | null>(null)
 
@@ -82,7 +83,7 @@ export function ApplicationKanban({ applications }: KanbanProps) {
                   onClick={() => setSelectedApp(app)}
                   className="cursor-grab active:cursor-grabbing"
                 >
-                  <ApplicationCard application={app} />
+                  <ApplicationCard application={app} profileId={profileId} />
                 </div>
               ))}
             </div>

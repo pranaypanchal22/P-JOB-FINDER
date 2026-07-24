@@ -3,17 +3,22 @@
 import { useEffect, useState } from 'react'
 import { Application, Job } from '@prisma/client'
 import { ApplicationKanban } from '@/components/applications/ApplicationKanban'
-import { getApplicationsWithJobs } from '@/server/applications/actions'
+import { getApplicationsWithJobs, getFirstProfileId } from '@/server/applications/actions'
 
 export default function ApplicationsPage() {
   const [applications, setApplications] = useState<(Application & { job: Job })[]>([])
+  const [profileId, setProfileId] = useState<string>('')
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     async function load() {
       try {
-        const apps = await getApplicationsWithJobs()
+        const [apps, pId] = await Promise.all([
+          getApplicationsWithJobs(),
+          getFirstProfileId(),
+        ])
         setApplications(apps)
+        if (pId) setProfileId(pId)
       } catch (error) {
         console.error('Error loading applications:', error)
       } finally {
@@ -78,7 +83,7 @@ export default function ApplicationsPage() {
 
       {/* Kanban */}
       <div className="bg-white dark:bg-gray-800 rounded-lg p-4 overflow-hidden">
-        <ApplicationKanban applications={applications} />
+        {profileId && <ApplicationKanban applications={applications} profileId={profileId} />}
       </div>
     </div>
   )
