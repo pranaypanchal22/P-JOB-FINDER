@@ -2,7 +2,7 @@ import { prisma } from '@/lib/db'
 import { logger } from '@/lib/logger'
 import { gmail_v1 } from 'googleapis'
 
-interface EmailMatch {
+export interface EmailMatch {
   applicationId: string
   status: 'interviewing' | 'offer' | 'rejected'
   message: string
@@ -15,7 +15,7 @@ const statusPatterns = {
 }
 
 export async function syncGmailEmails(
-  profileId: string,
+  _profileId: string,
   gmail: gmail_v1.Gmail
 ): Promise<EmailMatch[]> {
   try {

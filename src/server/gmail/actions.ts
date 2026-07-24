@@ -17,21 +17,30 @@ export async function connectGmailAccount(profileId: string, code: string) {
       throw new Error('No access token received')
     }
 
-    await prisma.gmailAccount.upsert({
+    const existing = await prisma.gmailAccount.findFirst({
       where: { profileId },
-      create: {
-        profileId,
-        email: '', // Will be populated on sync
-        accessToken: tokens.access_token,
-        refreshToken: tokens.refresh_token || '',
-        expiresAt: tokens.expiry_date ? new Date(tokens.expiry_date) : undefined,
-      },
-      update: {
-        accessToken: tokens.access_token,
-        refreshToken: tokens.refresh_token || '',
-        expiresAt: tokens.expiry_date ? new Date(tokens.expiry_date) : undefined,
-      },
     })
+
+    if (existing) {
+      await prisma.gmailAccount.update({
+        where: { id: existing.id },
+        data: {
+          accessTokenEncrypted: tokens.access_token,
+          refreshTokenEncrypted: tokens.refresh_token || '',
+          tokenExpiry: tokens.expiry_date ? new Date(tokens.expiry_date) : undefined,
+        },
+      })
+    } else {
+      await prisma.gmailAccount.create({
+        data: {
+          profileId,
+          email: '', // Will be populated on sync
+          accessTokenEncrypted: tokens.access_token,
+          refreshTokenEncrypted: tokens.refresh_token || '',
+          tokenExpiry: tokens.expiry_date ? new Date(tokens.expiry_date) : undefined,
+        },
+      })
+    }
 
     logger.info(`Gmail account connected for profile ${profileId}`)
     return { success: true }
@@ -43,15 +52,15 @@ export async function connectGmailAccount(profileId: string, code: string) {
 
 export async function syncGmailToApplications(profileId: string) {
   try {
-    const gmailAccount = await prisma.gmailAccount.findUnique({
+    const gmailAccount = await prisma.gmailAccount.findFirst({
       where: { profileId },
     })
 
-    if (!gmailAccount?.accessToken) {
+    if (!gmailAccount?.accessTokenEncrypted) {
       throw new Error('Gmail account not connected')
     }
 
-    const gmail = await getGmailClient(gmailAccount.accessToken)
+    const gmail = await getGmailClient(gmailAccount.accessTokenEncrypted)
     const matches = await syncGmailEmails(profileId, gmail)
 
     // Auto-update applications based on email matches
@@ -64,12 +73,13 @@ export async function syncGmailToApplications(profileId: string) {
       await prisma.applicationEvent.create({
         data: {
           applicationId: match.applicationId,
-          eventType: 'status_change',
-          details: {
+          type: 'status_change',
+          title: `Status changed to ${match.status}`,
+          metadata: JSON.stringify({
             from: 'email_sync',
             reason: match.message,
             source: 'Gmail',
-          },
+          }),
         },
       })
     }
@@ -84,8 +94,16 @@ export async function syncGmailToApplications(profileId: string) {
 
 export async function disconnectGmailAccount(profileId: string) {
   try {
-    await prisma.gmailAccount.delete({
+    const gmailAccount = await prisma.gmailAccount.findFirst({
       where: { profileId },
+    })
+
+    if (!gmailAccount) {
+      throw new Error('Gmail account not found')
+    }
+
+    await prisma.gmailAccount.delete({
+      where: { id: gmailAccount.id },
     })
 
     logger.info(`Gmail account disconnected for profile ${profileId}`)

@@ -46,6 +46,7 @@ export const angellistExtractor: JobExtractor = {
 
       return (response.data as AngelListResponse).jobs
         .filter((job: unknown) => isValidAngelListJob(job))
+        .filter((job: AngelListJob) => job.job_type === 'Remote')
         .slice(0, input.limit ?? 50)
         .map((job: AngelListJob) => ({
           source: 'angellist',
@@ -53,7 +54,7 @@ export const angellistExtractor: JobExtractor = {
           title: job.title,
           company: job.startup.name,
           location: job.startup.location || 'Remote',
-          remoteType: job.job_type === 'Remote' ? 'remote' : 'office',
+          remoteType: 'remote' as const,
           url: job.url,
           description: job.description,
           postedAt: new Date(job.created_at).toISOString(),

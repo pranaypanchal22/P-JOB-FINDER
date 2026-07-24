@@ -89,11 +89,11 @@ export const demoExtractor: JobExtractor = {
       const matchesQuery =
         job.title.toLowerCase().includes(query) ||
         job.company.toLowerCase().includes(query) ||
-        job.description.toLowerCase().includes(query)
+        (job.description && job.description.toLowerCase().includes(query))
 
-      const matchesLocation = !input.location || job.location.toLowerCase().includes(input.location.toLowerCase())
+      const matchesLocation = !input.location || (job.location && job.location.toLowerCase().includes(input.location.toLowerCase()))
 
-      const matchesRemote = !input.remote || job.remoteType !== 'office'
+      const matchesRemote = !input.remote || (job.remoteType === 'remote' || job.remoteType === 'hybrid')
 
       return matchesQuery && matchesLocation && matchesRemote
     })
