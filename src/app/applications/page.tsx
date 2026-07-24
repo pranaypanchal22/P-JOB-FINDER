@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import { Application, Job } from '@prisma/client'
-import { ApplicationKanban } from '@/components/applications/ApplicationKanban'
-import { getApplicationsWithJobs, getFirstProfileId } from '@/server/applications/actions'
+import { ApplicationKanban } from '../../components/applications/ApplicationKanban'
+import { getApplicationsWithJobs, getFirstProfileId } from '../../server/applications/actions'
 
 export default function ApplicationsPage() {
   const [applications, setApplications] = useState<(Application & { job: Job })[]>([])

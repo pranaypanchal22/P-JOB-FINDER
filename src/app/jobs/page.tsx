@@ -2,9 +2,9 @@
 
 import { useState } from 'react'
 import { Job } from '@prisma/client'
-import { JobSearchForm } from '@/components/jobs/JobSearchForm'
-import { JobCard } from '@/components/jobs/JobCard'
-import { logger } from '@/lib/logger'
+import { JobSearchForm } from '../../components/jobs/JobSearchForm'
+import { JobCard } from '../../components/jobs/JobCard'
+import { logger } from '../../lib/logger'
 
 interface SearchResult {
   success: boolean
