@@ -31,15 +31,22 @@ export const jsearchExtractor: JobExtractor = {
         return []
       }
 
+      const datePostedMap: { [key: string]: string } = {
+        '24h': 'last_24_hours',
+        '7d': 'last_7_days',
+        '30d': 'last_30_days',
+        any: 'all',
+      }
+
       const params = {
         query: input.query,
         page: 1,
         num_pages: 1,
-        date_posted: input.datePosted || 'all',
+        date_posted: datePostedMap[input.datePosted || 'any'] || 'all',
       }
 
       if (input.location) {
-        params.query = `${input.query} in ${input.location}`
+        params.query = `${input.query} ${input.location}`
       }
 
       const response = await axios.get('https://jsearch.p.rapidapi.com/search', {
