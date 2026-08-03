@@ -3,6 +3,7 @@ import { remoteOkExtractor } from './remoteok'
 import { adzunaExtractor } from './adzuna'
 import { manualExtractor } from './manual'
 import { csvImportExtractor } from './csvImport'
+import { demoExtractor } from './demo'
 import { careerjetExtractor } from './careerjet'
 import { usajobsExtractor } from './usajobs'
 import { angellistExtractor } from './angellist'
@@ -13,6 +14,7 @@ import { indeedExtractor } from './indeed.placeholder'
 import { glassdoorExtractor } from './glassdoor.placeholder'
 
 export const extractorRegistry: JobExtractor[] = [
+  demoExtractor,
   jsearchExtractor,
   remoteOkExtractor,
   adzunaExtractor,
